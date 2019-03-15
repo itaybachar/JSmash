@@ -23,6 +23,8 @@ public class Game {
 		init();
 		loop();
 		
+		eng.kill();
+		
 		// Free the window callbacks and destroy the window
 		glfwFreeCallbacks(window);
 		glfwDestroyWindow(window);
@@ -47,7 +49,7 @@ public class Game {
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
 		// Create the window
-		window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL);
+		window = glfwCreateWindow(1920, 1080, "Hello World!", glfwGetPrimaryMonitor(), NULL);
 		if ( window == NULL )
 			throw new RuntimeException("Failed to create the GLFW window");
 
@@ -76,7 +78,7 @@ public class Game {
 			);
 		} // the stack frame is popped automatically
 		
-		//glfwSetWindowMonitor(window,glfwGetPrimaryMonitor(),0,0,1920,1080, 60);
+//		glfwSetWindowMonitor(window,glfwGetPrimaryMonitor(),0,0,1920,1080, 60);
 
 		// Make the OpenGL context current
 		glfwMakeContextCurrent(window);
@@ -101,7 +103,7 @@ public class Game {
 		eng.init();
 
 		// Set the clear color
-		glClearColor(0.0f, 0.5f, 0.8f, 0.5f);
+		glClearColor(0.0f, 0.5f, 0.8f, 1.0f);
 
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.

@@ -1,9 +1,6 @@
 import java.nio.FloatBuffer;
 
 import org.lwjgl.*;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public class Stage {
@@ -13,18 +10,20 @@ public class Stage {
 	private int				vao	= 0;
 	private ShaderProgram	shaderProgram;
 	
-	// private float vertices[] = { -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f, -1.0f,
+	// private float vertices[] = { 
+	// -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f, -1.0f,
 	// -1.0f };
-	float[] vertices = new float[] { +0.0f, +0.8f, // Top coordinate
-			-0.8f, -0.8f, // Bottom-left coordinate
-			+0.8f, -0.8f // Bottom-right coordinate
+	float[] vertices = new float[] {
+			+0.0f, +540.0f, // Top coordinate
+			-960.0f, -540.0f, // Bottom-left coordinate
+			+960.0f, -540.0f // Bottom-right coordinate
 	};
 	
 	public Stage()
 	{
 		shaderProgram = new ShaderProgram();
-		shaderProgram.attachVertexShader("vertexShader.txt");
-		shaderProgram.attachFragmentShader("fragmentShader.txt");
+		shaderProgram.attachVertexShader("stage.vs");
+		shaderProgram.attachFragmentShader("stage.fs");
 		shaderProgram.link();
 		
 		vao = glGenVertexArrays();
@@ -59,8 +58,7 @@ public class Stage {
 	
 	public void render()
 	{
-		System.out.println("render!");
-		//glClear(GL_COLOR_BUFFER_BIT);
+		// glClear(GL_COLOR_BUFFER_BIT);
 		
 		shaderProgram.bind();
 		

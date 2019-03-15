@@ -4,7 +4,9 @@ public class Engine implements Runnable {
 	private long handle;		// Probably not needed
 	Thread tEngine;
 	
-	Stage stage;
+	private boolean stop = false;
+	
+	public Stage stage;
 	
 	public Engine(long handle)
 	{
@@ -26,10 +28,15 @@ public class Engine implements Runnable {
 		stage.render();
 	}
 	
+	public void kill()
+	{
+		stop = true;
+	}
+	
 	// Main logic loop
 	public void run()
 	{
-		while (true) {
+		while (stop) {
 			try {
 				Thread.sleep(10);
 			} catch (Exception e) {
