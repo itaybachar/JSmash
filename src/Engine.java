@@ -1,19 +1,14 @@
 
 public class Engine implements Runnable {
 	
-	private long handle;		// Probably not needed
-	Thread tEngine;
-	
+	private Thread tEngine;
 	private boolean stop = false;
 	
 	public Stage stage;
 	
-	public Engine(long handle)
+	public Engine()
 	{
-		// window handle
-		this.handle = handle;
 	}
-	
 	
 	// At this point all GLFW init is complete
 	public void init()

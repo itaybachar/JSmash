@@ -1,28 +1,28 @@
+import static org.lwjgl.opengl.GL30.*;
+
 import java.nio.FloatBuffer;
 
-import org.lwjgl.*;
-import static org.lwjgl.opengl.GL30.*;
+import org.lwjgl.BufferUtils;
 
 public class Stage {
 	
-	private double			width, height;
-	private int				vbo	= 0;
-	private int				vao	= 0;
-	private int				ebo	= 0;
+	private int		vbo;
+	private int		vao;
+	private int		ebo;
 	private ShaderProgram	shaderProgram;
+	private ImageLoader	imgLoader;
+	private TextureLoader	texLoader;
 	
-	// private float vertices[] = {
-	// -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f, -1.0f,
-	// -1.0f };
-	float[] vertices = new float[] {
-			// +0.0f, +540.0f, // Top coordinate
-			-940.0f, +520.0f, // Top-right coordinate
-			+940.0f, +520.0f, // Top-left coordinate
-			-940.0f, -520.0f, // Bottom-left coordinate
-			+940.0f, -520.0f // Bottom-right coordinate
+	// stride = 8floats * 4bytes/float = 32 bytes
+	private float[] vertices = new float[] {
+			// positions        // colors         // texture coords		
+			-1.0f, +1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // Top-left
+			+1.0f, +1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // Top-right
+			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // Bottom-left
+			+1.0f, -1.0f, 0.0f, 0.3f, 0.8f, 0.5f, 1.0f, 0.0f // Bottom-right
 	};
 	
-	int indices[] = {
+	private int indices[] = {
 			0, 1, 2, 1, 2, 3
 	};
 	
@@ -48,10 +48,18 @@ public class Stage {
 		ebo = glGenBuffers();
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
-
+		
 		// Describe how to interpret vertices from array
-		glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
-		glBindVertexArray(0);
+		// Stride is in BYTES!!!
+		glVertexAttribPointer(0, 3, GL_FLOAT, false, 32, 0);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, false, 32, 12);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(2, 2, GL_FLOAT, false, 32, 24);
+		glEnableVertexAttribArray(2);
+		
+		imgLoader = new ImageLoader("res/SSBU-Final_Destination.jpg");
+		texLoader = new TextureLoader(imgLoader);
 	}
 	
 	public void dispose()
@@ -70,22 +78,23 @@ public class Stage {
 	
 	public void render()
 	{
-		// glClear(GL_COLOR_BUFFER_BIT);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		
+		// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		texLoader.bind();
 		shaderProgram.bind();
 		
 		glBindVertexArray(vao);
 		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-//		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		
 		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
 		glBindVertexArray(0);
 		
 		ShaderProgram.unbind();
-		
 	}
 }
