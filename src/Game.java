@@ -1,4 +1,3 @@
-import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
@@ -18,7 +17,7 @@ public class Game {
 	
 	public void run()
 	{
-		System.out.println("Hello LWJGL " + Version.getVersion() + "!");
+		System.out.println("JSmash!");
 		
 		init();
 		loop();

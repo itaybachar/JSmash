@@ -1,19 +1,22 @@
 
 public class Engine implements Runnable {
 	
-	private Thread tEngine;
-	private boolean stop = false;
+	private Thread	tEngine;
+	private boolean	stop;
+	private Input	i;
 	
 	public Stage stage;
 	
 	public Engine()
 	{
+		i = new Input();
+		tEngine = new Thread(this);
+		stop = false;
 	}
 	
 	// At this point all GLFW init is complete
 	public void init()
 	{
-		tEngine = new Thread(this);
 		stage = new Stage();
 		tEngine.start();
 	}
@@ -31,12 +34,12 @@ public class Engine implements Runnable {
 	// Main logic loop
 	public void run()
 	{
-		while (stop) {
+		while (!stop) {
 			try {
 				Thread.sleep(10);
 			} catch (Exception e) {
-			}			
-			//stage.render();
+			}
+			i.getButton(0);
 		}
 	}
 }
