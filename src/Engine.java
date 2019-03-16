@@ -39,7 +39,7 @@ public class Engine implements Runnable {
 				Thread.sleep(10);
 			} catch (Exception e) {
 			}
-			i.getButton(0);
+			System.out.println(i.getButton(0));
 		}
 	}
 }
